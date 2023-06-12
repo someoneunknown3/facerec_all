@@ -21,8 +21,9 @@ uri = "mongodb+srv://elliotnathanpradjonggo1:test@cluster0.iluc3nm.mongodb.net/?
 
 client = MongoClient(uri, server_api=ServerApi('1'))
 
-db = client['db_test']
+db = client['db_test_baru']
 collection = db['user']
+collection.create_index('name', unique = True)
 try:
     client.admin.command('ping')
     print("Pinged your deployment. You successfully connected to MongoDB!")
