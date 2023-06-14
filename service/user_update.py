@@ -32,9 +32,10 @@ def user_update(collection, request):
         newvalues = { "$set": { "name": name, "password": encrypted_str } }
         
         collection.update_one(myquery, newvalues)
-
         cursor = collection.find(myquery)
         list_cur = list(cursor)
+        if list_cur == []:
+            raise Exception("Failed Update")
         json_data = json.loads(dumps(list_cur))
         return validation_response(True, "Success Update User", 200, data=json_data)
     except Exception as e:
