@@ -1,9 +1,9 @@
 import rsa
 
 def loadKeys():
-    with open('facerec_all/service/keys/publicKey.pem', 'rb') as p:
+    with open('service/keys/publicKey.pem', 'rb') as p:
         publicKey = rsa.PublicKey.load_pkcs1(p.read())
-    with open('facerec_all/service/keys/privateKey.pem', 'rb') as p:
+    with open('service/keys/privateKey.pem', 'rb') as p:
         privateKey = rsa.PrivateKey.load_pkcs1(p.read())
     return publicKey, privateKey
 
