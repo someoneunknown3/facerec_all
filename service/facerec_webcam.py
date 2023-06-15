@@ -32,8 +32,9 @@ def initialize(collection):
     for face in faces:
             known_face_names.append(face["image_name"])
             encoded_image = face_recognition.load_image_file(face["image_path"])
+            image_encoding = face_recognition.face_encodings(encoded_image)
+            known_face_encodings.append(image_encoding[0])
 
-            known_face_encodings.append(face_recognition.face_encodings(encoded_image)[0])
 def get_face(frame):
     global face_locations, process_this_frame, face_real, face_names, known_face_encodings, known_face_names
     # Only process every other frame of video to save time
@@ -54,20 +55,20 @@ def get_face(frame):
         i = 0
         for face_encoding in face_encodings:
             # See if the face is a match for the known face(s)
-            matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
+            matches = face_recognition.compare_faces(known_face_encodings, face_encoding, 0.5)
+            face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
             name = "Unknown"
-
             # # If a match was found in known_face_encodings, just use the first one.
             # if True in matches:
             #     first_match_index = matches.index(True)
             #     name = known_face_names[first_match_index]
 
             # Or instead, use the known face with the smallest distance to the new face
-            if known_face_encodings != []:
-                face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
-                best_match_index = np.argmin(face_distances)
-                if matches[best_match_index]:
-                    name = known_face_names[best_match_index]
+            # if known_face_encodings != []:
+            face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
+            best_match_index = np.argmin(face_distances)
+            if matches[best_match_index]:
+                name = known_face_names[best_match_index]
             top, right, bottom, left = face_locations[i]
             height_box = bottom - top
             width_box = right - left
