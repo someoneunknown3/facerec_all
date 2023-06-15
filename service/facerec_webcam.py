@@ -63,10 +63,11 @@ def get_face(frame):
             #     name = known_face_names[first_match_index]
 
             # Or instead, use the known face with the smallest distance to the new face
-            face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
-            best_match_index = np.argmin(face_distances)
-            if matches[best_match_index]:
-                name = known_face_names[best_match_index]
+            if known_face_encodings != []:
+                face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
+                best_match_index = np.argmin(face_distances)
+                if matches[best_match_index]:
+                    name = known_face_names[best_match_index]
             top, right, bottom, left = face_locations[i]
             height_box = bottom - top
             width_box = right - left
