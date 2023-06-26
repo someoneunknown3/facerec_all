@@ -1,6 +1,7 @@
-from flask import Flask, render_template, Response, jsonify, request, redirect
+from flask import Flask, render_template, Response, jsonify, request, redirect, send_file
 
 import json
+from service.loadPublic import get_publicKey_str
 from service.facerec_webcam import gen_frames
 from service.facerec_upload import upload
 from service.facerec_compare import compare
@@ -12,6 +13,7 @@ from service.user_update import user_update
 from service.user_delete import user_delete
 from service.login import login
 from service.token_verification import verification
+from service.response import validation_response
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 
@@ -39,36 +41,33 @@ except Exception as e:
 def index():
     return render_template('index.html')
 
+@app.route('/public-key')
+def get_public_key():
+    public_key = get_publicKey_str()
+    return public_key
+
 @app.route('/verify')
 def verify():
     headers = request.headers
     return verification(headers.get('Authorization'))
 
-@app.route('/login', methods=['GET'])
-def login_route():
-    return login(user_collect, request.json)
-
-@app.route('/user/add', methods=['POST'])
-def user_add():
-    return user_create(user_collect, request.json)
-
-@app.route('/user/get-all', methods=['GET'])
+@app.route('/get-user', methods=['GET'])
 def user_get_all():
     return user_read_all(user_collect)
 
-@app.route('/user/get-name', methods=['GET'])
+@app.route('/get-user/name', methods=['GET'])
 def user_get_by_name():
     return user_read_name(user_collect, request.json)
 
-@app.route('/user/get-id', methods=['GET'])
+@app.route('/get-user/id', methods=['GET'])
 def user_get_by_id():
     return user_read_id(user_collect, request.json)
 
-@app.route('/user/update', methods=['PUT'])
+@app.route('/update-user', methods=['PUT'])
 def user_update_route():
     return user_update(user_collect, request.json)
 
-@app.route('/user/delete', methods=['DELETE'])
+@app.route('/delete-user', methods=['DELETE'])
 def user_delete_route():
     return user_delete(user_collect, request.json)
 
@@ -78,39 +77,57 @@ def video_feed():
     #Video streaming route. Put this in the src attribute of an img tag
     return Response(gen_frames(face_collect), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-
 @app.route('/video')
 def facerec_webcam():
     return render_template('facerec_webcam.html')
 
-@app.route('/enroll', methods=['GET', 'POST'])
-def enroll():
+@app.route('/login')
+def login_html():
+    return render_template('login.html')
 
+@app.route('/login-route', methods=['POST'])
+def login_route():
+    if request.method == 'POST':
+        return login(user_collect, request.json)
+
+@app.route('/enroll')
+def enroll():
+    return render_template('upload.html')
+
+@app.route('/enroll-route', methods=['POST'])
+def enroll_route():
+    print(request.files)
     if request.method == 'POST':
         if 'file1' not in request.files:
-            return redirect(request.url)
+            return validation_response("File not found", 400)
         file1 = request.files['file1']
-        data_str = request.form.get('jsonData')
+        data_str = request.form.get('name')
         data_json = json.loads(data_str)
-        return jsonify(upload(app.config['UPLOAD_FOLDER'], file1, face_collect, data_json))
+        return upload(app.config['UPLOAD_FOLDER'], file1, face_collect, data_json)
 
-    # If no valid image file was uploaded, show the file upload form:
-    return render_template('facerec_upload.html')
-
-@app.route('/compare', methods=['GET', 'POST'])
+@app.route('/compare')
+def compare_func():
+    return render_template('compare.html')
+    
+@app.route('/compare-route', methods=['POST'])
 def compare_route():
     # Check if a valid image file was uploaded
     if request.method == 'POST':
         if 'file1' not in request.files or 'file2' not in request.files:
-            return redirect(request.url)
+            return validation_response("File not found", 400)
 
         file1 = request.files['file1']
         file2 = request.files['file2']
-        
-        return jsonify(compare(file1, file2))
+        return compare(file1, file2)
 
-    # If no valid image file was uploaded, show the file upload form:
-    return render_template('facerec_compare.html')
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
+@app.route('/register-route', methods=['POST'])
+def register_route():
+    if request.method == 'POST':
+        return user_create(user_collect, request.json)
 
 if __name__ == '__main__':
     app.run(debug=True)

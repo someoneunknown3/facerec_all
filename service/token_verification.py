@@ -1,4 +1,5 @@
 from .token_encode_decode import *
+from .response import validation_response
 
 def verification(token):
 
@@ -6,25 +7,10 @@ def verification(token):
         raise Exception("no TEST")
     try:
         payload = decode(token[5:])
-        print(payload)
-        return {
-            "test": [
-                    {
-                        "message": "Success",
-                        "status_code": "200",
-                        "id": payload["id"],
-                        "timestamp": 0,
-                    }
-                ]
+        json_data = {
+            "id": payload["id"],
         }
+        return validation_response("Success Verify User", 200, data=json_data)
     except Exception as e:
         print(e)
-        return {
-            "test": [
-                {
-                    "message": "Failed",
-                    "status_code": "401",
-                    "timestamp": 0,
-                }
-            ]
-    }, 401
+        return validation_response("Failed Verify User", 401)

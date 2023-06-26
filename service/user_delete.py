@@ -12,7 +12,7 @@ def user_delete(collection, request):
             raise Exception("User does not exist")
         collection.delete_one(myquery)
         
-        return validation_response(True, "Success Delete User", 200)
+        return validation_response("Success Delete User", 200)
     except Exception as e:
         print(e)
-        return validation_response(False, "Failed Delete User", 400)
+        return validation_response("Failed Delete User", 400)

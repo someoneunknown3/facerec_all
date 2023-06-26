@@ -8,7 +8,7 @@ def user_read_name(collection, request):
         cursor = collection.find(query)
         list_cur = list(cursor)
         json_data = json.loads(dumps(list_cur))
-        return validation_response(True, "Success Get User by Name", 200, data=json_data)
+        return validation_response("Success Get User by Name", 200, data=json_data)
     except Exception as e:
         print(e)
-        return validation_response(False, "Failed Get User by Name", 400)
+        return validation_response("Failed Get User by Name", 400)

@@ -7,17 +7,14 @@ function handleSubmit(event) {
     // event.preventDefault();
     try {
         event.preventDefault();
-        let name = document.getElementById("name")
-        let json = {
-            name: name.value
-        }
-        const str = JSON.stringify(json);
         const formData = new FormData();
-        const fileInput = document.getElementById("file1");
-        const file = fileInput.files[0];
-        formData.append('file1', file);
-        formData.append('name', str);
-        const url = "/enroll-route"
+        const file1Input = document.getElementById("file1");
+        const file2Input = document.getElementById("file2");
+        const file1 = file1Input.files[0];
+        const file2 = file2Input.files[0];
+        formData.append('file1', file1);
+        formData.append('file2', file2);
+        const url = "/compare-route"
         fetch(url, {
             method: "POST",
             body: formData,
@@ -46,5 +43,5 @@ function handleSubmit(event) {
     }
 }
   
-const submit = document.getElementById("upload")    
+const submit = document.getElementById("compare")    
 submit.addEventListener('click', handleSubmit);

@@ -4,13 +4,16 @@ import json
 from .encrypt_decrypt import *
 from .password_verification import password_verification
 import base64
+from .loadPrivate import *
+from .loadPublic import *
 
 def user_update(collection, request):
     try:
         name = request["name"]
 
         #load Keys
-        publicKey, privateKey = loadKeys()
+        publicKey = load_publicKeys()
+        privateKey = load_privateKeys()
         
         #from string to byte
         decodable = base64.b64decode(request["password"])
@@ -37,7 +40,7 @@ def user_update(collection, request):
         if list_cur == []:
             raise Exception("Failed Update")
         json_data = json.loads(dumps(list_cur))
-        return validation_response(True, "Success Update User", 200, data=json_data)
+        return validation_response("Success Update User", 200, data=json_data)
     except Exception as e:
         print(e)
-        return validation_response(False, "Failed Update User", 400)
+        return validation_response("Failed Update User", 400)

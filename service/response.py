@@ -1,17 +1,9 @@
-def validation_response(bool, message, code, **kwargs):
-    if bool:
-        data = kwargs.get('data', None)
-        if data is None:
-           return {
-        "message":message,
-        "code":code,
-    }, code
-        return {
-        "message":message,
-        "code":code,
-        "data":data
-    }, code
-    return {
-        "message":message,
-        "code":code,
-    }, code
+def validation_response(message, code, **kwargs):
+    data = kwargs.get('data', None)
+    response = {
+        "message": message,
+        "code": code,
+    }
+    if data is not None:
+        response["data"] = data
+    return response, code

@@ -2,25 +2,27 @@ from .token_encode_decode import *
 import datetime
 from .response import validation_response
 from .encrypt_decrypt import *
+from .loadPrivate import *
 import base64
 
 def login(collection, request):
     
     try:
         #load keys
-        _, private_key = loadKeys()
+        private_key = load_privateKeys()
         
         #from string to byte
         decodable1 = base64.b64decode(request["password"])
 
         #decrypt input 
         password_input = decrypt(decodable1, private_key)
-
+        print(password_input)
         #find the user
         query = {"name": request["name"]}
         cursor = collection.find(query)
         list_cur = list(cursor)
-
+        if len(list_cur) <= 0:
+            raise Exception("user not found")
         user = list_cur[0]
 
         #from string to byte
@@ -40,7 +42,7 @@ def login(collection, request):
         data = {
             "token":token
         }
-        return validation_response(True, "Login Success", 200, data=data)
+        return validation_response("Login Success", 200, data=data)
     except Exception as e:
         print(e)
-        return validation_response(False, "Login Failed", 400)
+        return validation_response("Login Failed", 400)

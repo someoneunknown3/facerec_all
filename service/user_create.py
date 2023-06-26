@@ -3,6 +3,9 @@ from bson.json_util import dumps
 import json
 from .encrypt_decrypt import *
 from .password_verification import password_verification
+from .loadPrivate import *
+from .loadPublic import *
+
 import base64
 
 def user_create(collection, request):
@@ -10,7 +13,8 @@ def user_create(collection, request):
         name = request["name"]
 
         #load Keys
-        publicKey, privateKey = loadKeys()
+        publicKey = load_publicKeys()
+        privateKey = load_privateKeys()
         
         #from string to byte
         decodable = base64.b64decode(request["password"])
@@ -39,7 +43,7 @@ def user_create(collection, request):
         inserted_document = collection.find_one({"_id": inserted_id})
         json_data = json.loads(dumps(inserted_document))
         
-        return validation_response(True, "Success Create User", 200, data=json_data)
+        return validation_response("Success Create User", 200, data=json_data)
     except Exception as e:
         print(e)
-        return validation_response(False, "Failed Create User", 400)
+        return validation_response("Failed Create User", 400)
