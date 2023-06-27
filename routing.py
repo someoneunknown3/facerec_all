@@ -12,6 +12,7 @@ from service.user_read_id import user_read_id
 from service.user_update import user_update
 from service.user_delete import user_delete
 from service.login import login
+from service.logout import logout
 from service.token_verification import verification
 from service.response import validation_response
 from pymongo import MongoClient
@@ -61,7 +62,11 @@ def user_get_by_name():
 
 @app.route('/get-user/id', methods=['GET'])
 def user_get_by_id():
-    return user_read_id(user_collect, request.json)
+    user_id = request.args.get('id')
+    jsonData = {
+        "id": user_id
+    }
+    return user_read_id(user_collect, jsonData)
 
 @app.route('/update-user', methods=['PUT'])
 def user_update_route():
@@ -80,6 +85,11 @@ def video_feed():
 @app.route('/video')
 def facerec_webcam():
     return render_template('facerec_webcam.html')
+
+@app.route('/logout', methods=['POST'])
+def logout_route():
+    success = request.json["success"]
+    return logout(success)
 
 @app.route('/login')
 def login_html():
