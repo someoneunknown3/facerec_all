@@ -5,10 +5,10 @@ import json
 def user_read_id(collection, request):
     try:
         myquery = { "_id": ObjectId(request["id"])}
-        
-        cursor = collection.find(myquery)
-        list_cur = list(cursor)
-        json_data = json.loads(dumps(list_cur))
+        projection = {'password': 0}
+
+        user = collection.find_one(myquery, projection)
+        json_data = json.loads(dumps(user))
         return validation_response("Success Get User by Id", 200, data=json_data)
     except Exception as e:
         print(e)
