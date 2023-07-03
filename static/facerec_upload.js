@@ -35,7 +35,9 @@ function handleSubmit(event) {
         }
       })
       .then(jsonData =>{
-        console.log(jsonData)
+        jsonElement = document.getElementById("json")
+        jsonElement.style.color = "white";
+        jsonElement.textContent = JSON.stringify(jsonData, undefined, 2);
       })
       .catch(function(err) {
         console.info(err + " url: " + url)
