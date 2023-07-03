@@ -31,6 +31,8 @@ user_collect = db['user']
 user_collect.create_index('name', unique = True)
 
 face_collect = db['faces']
+
+log_collect = db['log']
 try:
     client.admin.command('ping')
     print("Pinged your deployment. You successfully connected to MongoDB!")
