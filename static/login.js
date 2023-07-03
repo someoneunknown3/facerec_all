@@ -47,6 +47,7 @@ async function handleSubmit(event) {
       } else {
         // Handle unsuccessful response
         console.error('Error:', response.status);
+        console.error(response.json())
       }
     })
     .then(jsonData =>{
@@ -61,7 +62,7 @@ async function handleSubmit(event) {
     
   } catch (error) {
     console.error('An error occurred:', error);
-    // Handle the error appropriately (e.g., show an error message to the user)
+    console.error(response.json())  
   }
 }
 let user = await verify()

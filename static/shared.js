@@ -1,7 +1,8 @@
 async function verify(){
     let myValue = sessionStorage.getItem('token');
     user_id = null
-    if(myValue != null){
+    console.log(myValue)
+    if(myValue != undefined){
       try {
         let url = "/verify"
         await fetch(url, {
@@ -15,6 +16,7 @@ async function verify(){
             return response.json()
           } else {
             console.error('Error:', response.status);
+            console.error(response.json())
           }
         })
         .then(jsonData =>{
@@ -48,6 +50,7 @@ async function getUser(){
             return response.json()
           } else {
             console.error('Error:', response.status);
+            console.error(response.json())
           }
         })
         .then(jsonData =>{

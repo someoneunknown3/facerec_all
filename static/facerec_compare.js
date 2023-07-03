@@ -22,12 +22,11 @@ function handleSubmit(event) {
         })
       .then(response =>{
         if (response.ok) {
-          // Redirect to another route after successful fetch
           return response.json()
-          // window.location.href = '/';
         } else {
           // Handle unsuccessful response
           console.error('Error:', response.status);
+          console.error(response.json())
         }
       })
       .then(jsonData =>{

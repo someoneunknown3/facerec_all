@@ -31,6 +31,7 @@ function handleSubmit(event) {
         } else {
           // Handle unsuccessful response
           console.error('Error:', response.status);
+          console.error(response.json())
         }
       })
       .then(jsonData =>{

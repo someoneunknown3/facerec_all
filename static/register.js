@@ -20,6 +20,10 @@ async function load_publicKey() {
   
   async function handleSubmit(event) {
     event.preventDefault();
+    if (user != null){
+      window.location.href = '/';
+      alert("You are logged in")
+    }
     try {
       const formData = new FormData(form);
       const data = Object.fromEntries(formData);
@@ -45,18 +49,14 @@ async function load_publicKey() {
         if (response.ok) {
           // Redirect to another route after successful fetch
           return response.json()
-          // window.location.href = '/';
         } else {
           // Handle unsuccessful response
           console.error('Error:', response.status);
+          console.error(response.json())
         }
       })
       .then(jsonData =>{
-        console.log(jsonData)
-        sessionStorage.setItem('token', jsonData.data.token);
-        let myValue = sessionStorage.getItem('token');
-        console.log(myValue)
-        // window.location.href = '/';
+        window.location.href = '/login';
       })
       .catch(function(err) {
         console.info(err + " url: " + url)
@@ -64,7 +64,7 @@ async function load_publicKey() {
       
     } catch (error) {
       console.error('An error occurred:', error);
-      // Handle the error appropriately (e.g., show an error message to the user)
+      console.error(response.json())
     }
   }
 let user = await verify()
