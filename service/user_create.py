@@ -44,17 +44,13 @@ def user_create(collection, request):
             "name": name,
             "password": encrypted_str
         }
-        print("test")
         cursor = collection.insert_one(new_user)
         inserted_id = cursor.inserted_id
-        print(cursor)
-        print(inserted_id)
 
         # Retrieve the inserted document
         myquery = { "_id": ObjectId(inserted_id)}
         inserted_document = collection.find_one(myquery)
         json_data = json.loads(dumps(inserted_document))
-        print(json_data)
         return validation_response("Success Create User", 200, data=json_data)
     except Exception as e:
         print(e)
