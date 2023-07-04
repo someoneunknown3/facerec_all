@@ -3,10 +3,49 @@ var loadFile = function(event, output) {
               image.src=URL.createObjectURL(event.target.files[0]);
 };
 
+async function upload_success(){
+  try {
+        let user_id = "guest"
+        let user = await verify()
+          if (user != null){
+            user_id = user["id"]
+          }
+        let jsonData = {
+            "action": "upload",
+            "user_id": user_id
+        }
+        let json = JSON.stringify(jsonData);
+        const url = "/log-create"
+        fetch(url, {
+            method: "POST",
+            body: json,
+            headers: {
+              'Content-Type': 'application/json'
+            },
+        })
+      .then(response =>{
+        if (response.ok) {
+          return response.json()
+        } else {
+          console.error('Error:', response.status);
+          console.error(response.json())
+        }
+      })
+      .then(jsonData =>{
+        console.log(jsonData)
+      })
+      .catch(function(err) {
+        console.info(err + " url: " + url)
+      });
+      
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
+}
+
 function handleSubmit(event) {
-    // event.preventDefault();
+    event.preventDefault();
     try {
-        event.preventDefault();
         let name = document.getElementById("name")
         let json = {
             name: name.value
@@ -25,11 +64,9 @@ function handleSubmit(event) {
         })
       .then(response =>{
         if (response.ok) {
-          // Redirect to another route after successful fetch
+          upload_success()
           return response.json()
-          // window.location.href = '/';
         } else {
-          // Handle unsuccessful response
           console.error('Error:', response.status);
           console.error(response.json())
         }
@@ -45,7 +82,6 @@ function handleSubmit(event) {
       
     } catch (error) {
       console.error('An error occurred:', error);
-      // Handle the error appropriately (e.g., show an error message to the user)
     }
 }
   

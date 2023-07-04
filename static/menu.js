@@ -56,7 +56,6 @@ async function handleLogout(){
 
 async function create_navbar(){
     let user = await getUser()
-    console.log(user)
     let navbar = document.createElement("nav");
     navbar.classList.add("main-header", "navbar", "navbar-expand", "navbar-dark");
 
@@ -128,7 +127,6 @@ async function create_navbar(){
       link_drop_3.innerHTML = "Logout"
       link_drop_3.addEventListener("click", async function(event) {
         event.preventDefault();
-        console.log("test")
         await handleLogout();
         window.location.href = '/';
       });
@@ -231,7 +229,9 @@ function create_sidebar(){
   ul.setAttribute('role', 'menu');
   ul.dataset.accordion = 'false';
 
-  let options = [{href:"compare", text:"Compare", icon:"fa-image"}, {href:"enroll", text:"Enroll", icon:"fa-th"}]
+  let options = [{href:"compare", text:"Compare", icon:"fa-image"}, 
+              {href:"enroll", text:"Enroll", icon:"fa-th"},
+              {href:"log", text:"Log", icon:"fa-th"}]
 
   for (op in options){
     let li = document.createElement("li")

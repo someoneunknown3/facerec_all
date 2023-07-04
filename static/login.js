@@ -66,7 +66,6 @@ async function handleSubmit(event) {
   }
 }
 let user = await verify()
-console.log(user)
 if (user != null){
   window.location.href = '/';
   alert("You already logged in")

@@ -11,6 +11,8 @@ from service.user_read_name import user_read_name
 from service.user_read_id import user_read_id
 from service.user_update import user_update
 from service.user_delete import user_delete
+from service.log_create import log_create
+from service.log_read_page import log_read_page
 from service.login import login
 from service.logout import logout
 from service.token_verification import verification
@@ -140,6 +142,29 @@ def register():
 def register_route():
     if request.method == 'POST':
         return user_create(user_collect, request.json)
+    
+@app.route('/log')
+def log():
+    return render_template('log.html')
+    
+# @app.route('/log-page', methods=['GET'])
+# def log_get():
+#     # json = request.json
+#     # user_id = json["user_id"]
+#     return log_read_page(log_collect)
+
+@app.route('/log-page', methods=['GET'])
+def log_get():
+    page = request.args.get('page', default=1, type=int)
+    limit = request.args.get('limit', default=10, type=int)
+    sort_by = request.args.get('sort_by', default='date', type=str)
+    sort = request.args.get('sort', default='DSC', type=str)
+    return log_read_page(log_collect, page, limit, sort_by, sort)
+
+@app.route('/log-create', methods=['POST'])
+def log_route():
+    if request.method == 'POST':
+        return log_create(log_collect, request.json)
 
 if __name__ == '__main__':
     app.run(debug=True)

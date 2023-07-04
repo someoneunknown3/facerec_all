@@ -1,7 +1,6 @@
 async function verify(){
     let myValue = sessionStorage.getItem('token');
     user_id = null
-    console.log(myValue)
     if(myValue != undefined){
       try {
         let url = "/verify"
@@ -20,7 +19,6 @@ async function verify(){
           }
         })
         .then(jsonData =>{
-          console.log(jsonData)
           user_id = jsonData["data"]
         })
         .catch(function(err) {
