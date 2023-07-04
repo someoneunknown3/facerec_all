@@ -144,49 +144,6 @@ async function create_navbar(){
     }
     link_right.appendChild(user_panel)
     nav_li_right.appendChild(link_right)
-    // let image = document.createElement("div")
-    // image.classList.add("image")
-    // let name = document.createElement("div")
-    // // name.innerHTML = user["name"]
-    // name.innerHTML = "name"
-
-    // let img = document.createElement("img")
-    // img.src = "static/dist/img/default-150x150.png"
-    // img.classList.add("img-circle", "elevation-2")
-    // img.alt = "User Image"
-
-    // image.appendChild(img)
-    // user_panel.appendChild(name)
-    // user_panel.appendChild(image)
-    // link_right.appendChild(user_panel)
-    // nav_li_right.appendChild(link_right)
-
-    // let dropdown = document.createElement("div")
-    // dropdown.classList.add("dropdown-menu", "dropdown-menu-lg", "dropdown-menu-right")
-    // let link_drop_1 = document.createElement("a")
-    // link_drop_1.classList.add("dropdown-item", "dropdown-footer")
-    // link_drop_1.innerHTML = "Account"
-    // let line_1 = document.createElement("div")
-    // line_1.classList.add("dropdown-divider")
-    // let link_drop_2 = document.createElement("a")
-    // link_drop_2.classList.add("dropdown-item", "dropdown-footer")
-    // link_drop_2.innerHTML = "Settings"
-    // let line_2 = document.createElement("div")
-    // line_2.classList.add("dropdown-divider")
-    // let link_drop_3 = document.createElement("a")
-    // link_drop_3.classList.add("dropdown-item", "dropdown-footer")
-    // link_drop_3.innerHTML = "Logout"
-    // link_drop_3.addEventListener("click", async function(event) {
-    //   event.preventDefault();
-    //   await handleLogout();
-    // });
-
-    // dropdown.appendChild(link_drop_1)
-    // dropdown.appendChild(line_1)
-    // dropdown.appendChild(link_drop_2)
-    // dropdown.appendChild(line_2)
-    // dropdown.appendChild(link_drop_3)
-    // nav_li_right.appendChild(dropdown)
 
     nav_ul_right.appendChild(nav_li_right)
     navbar.appendChild(nav_ul_left);
@@ -231,7 +188,8 @@ function create_sidebar(){
 
   let options = [{href:"compare", text:"Compare", icon:"fa-image"}, 
               {href:"enroll", text:"Enroll", icon:"fa-th"},
-              {href:"log", text:"Log", icon:"fa-th"}]
+              {href:"log", text:"Log", icon:"fa-th"},
+              {href:"detect", text:"Detect", icon:"fa-image"}]
 
   for (op in options){
     let li = document.createElement("li")
