@@ -50,6 +50,7 @@ async function handlePagination(page, limit, sort, sort_by) {
 
 async function createGrid(page = 1, limit = 10, sort = 'DSC', sort_by = 'date') {
     try {
+      let field = ["username", "action", "date"]
       let data = await getLog(page, limit, sort, sort_by);
       let items = data["items"]
       let table_head = document.getElementById("table_head");
@@ -62,7 +63,7 @@ async function createGrid(page = 1, limit = 10, sort = 'DSC', sort_by = 'date') 
       let total_count = data["total_count"]
       let total_page = data["total_page"]
       let item_this_page = data["item_this_page"]
-      for(let key in items[0]){
+      for(let key of field){
         let head_th = document.createElement("th")
         let arrow = ""
         if(key == column){
@@ -93,7 +94,8 @@ async function createGrid(page = 1, limit = 10, sort = 'DSC', sort_by = 'date') 
       }
 
       let entries = document.getElementById("entries")
-      entries.innerHTML = "Showing " + (limit * (page - 1) + 1) + " to " + (limit * page - (limit - item_this_page)) + " of " + total_count + " entries"
+      let empty = item_this_page == 0 ? 0 : 1
+      entries.innerHTML = "Showing " + (limit * (page - 1) + empty) + " to " + (limit * page - (limit - item_this_page)) + " of " + total_count + " entries"
       
       let pagination = document.getElementById("pagination")
       let prev = document.createElement("li");
