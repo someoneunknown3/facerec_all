@@ -113,6 +113,10 @@ async function create_navbar(){
       link_drop_1.setAttribute('role', 'button');
       link_drop_1.classList.add("dropdown-item", "dropdown-footer")
       link_drop_1.innerHTML = "Account"
+      link_drop_1.addEventListener("click", async function(event) {
+        event.preventDefault();
+        window.location.href = '/account';
+      });
       let line_1 = document.createElement("div")
       line_1.classList.add("dropdown-divider")
       let link_drop_2 = document.createElement("a")

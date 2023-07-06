@@ -1,0 +1,36 @@
+
+
+.account-title{
+    font-size: 1.6rem;
+    text-align: left;
+}
+
+.input-group-append-1{
+    width: 40%;
+}
+
+.input-group-append-2{
+    width: 60%;
+}
+
+
+.username1{
+    width:100%;
+    display: block;
+    color: white !important;
+    background-color: #28a745 !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 0.25rem !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    font-family: inherit !important;
+}   
+
+.username2{
+    width: 100%;
+    border-left: 0;
+}
+
+.edit-border{
+    border: 1px solid #ced4da;
+}

@@ -144,10 +144,6 @@ def register_route():
     if request.method == 'POST':
         return user_create(user_collect, request.json)
     
-@app.route('/log')
-def log():
-    return render_template('log.html')
-    
 @app.route('/detect')
 def detect():
     return render_template('detect.html')
@@ -157,7 +153,10 @@ def detect_route():
     if request.method == 'POST':
         url_src = request.json['url_src']
         return detection(face_collect, url_src)
-
+    
+@app.route('/log')
+def log():
+    return render_template('log.html')
 
 @app.route('/log-page', methods=['GET'])
 def log_get():
@@ -171,6 +170,10 @@ def log_get():
 def log_route():
     if request.method == 'POST':
         return log_create(log_collect, user_collect, request.json)
+    
+@app.route('/account')
+def account():
+    return render_template('account.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
