@@ -1,7 +1,9 @@
 from flask import Flask, render_template, Response, jsonify, request, redirect, send_file
 
 import json
+import requests
 from service.loadPublic import get_publicKey_str
+from service.detect import detection
 from service.facerec_webcam import gen_frames
 from service.facerec_upload import upload
 from service.facerec_compare import compare
@@ -110,7 +112,6 @@ def enroll():
 
 @app.route('/enroll-route', methods=['POST'])
 def enroll_route():
-    print(request.files)
     if request.method == 'POST':
         if 'file1' not in request.files:
             return validation_response("File not found", 400)
@@ -147,11 +148,16 @@ def register_route():
 def log():
     return render_template('log.html')
     
-# @app.route('/log-page', methods=['GET'])
-# def log_get():
-#     # json = request.json
-#     # user_id = json["user_id"]
-#     return log_read_page(log_collect)
+@app.route('/detect')
+def detect():
+    return render_template('detect.html')
+
+@app.route('/detect-route', methods=['POST'])
+def detect_route():
+    if request.method == 'POST':
+        url_src = request.json['url_src']
+        return detection(face_collect, url_src)
+
 
 @app.route('/log-page', methods=['GET'])
 def log_get():
@@ -164,7 +170,7 @@ def log_get():
 @app.route('/log-create', methods=['POST'])
 def log_route():
     if request.method == 'POST':
-        return log_create(log_collect, request.json)
+        return log_create(log_collect, user_collect, request.json)
 
 if __name__ == '__main__':
     app.run(debug=True)
