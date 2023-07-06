@@ -10,29 +10,42 @@ from .loadPublic import *
 def user_update(collection, request):
     try:
         name = request["name"]
-
         #load Keys
+        privateKey2 = load_privateKeys2()
         publicKey = load_publicKeys()
-        privateKey = load_privateKeys()
         
         #from string to byte
-        decodable = base64.b64decode(request["password"])
+        decodable1 = base64.b64decode(request["password"])
+        decodable2 = base64.b64decode(request["retype"])
 
         #decrypt
-        decrypted = decrypt(decodable, privateKey)
+        rsa_key = RSA.importKey(privateKey2)
+        cipher = PKCS1_v1_5.new(rsa_key)
+        pass_decrypted = cipher.decrypt(decodable1, "ERROR")
+        password = pass_decrypted.decode('utf-8')
+        retype_decrypted= cipher.decrypt(decodable2, "ERROR")
+        retype = retype_decrypted.decode('utf-8')
+
+        if password != retype:
+            raise Exception("Password and Retype not the same")
 
         #password verification
-        if not password_verification(decrypted):
+        if not password_verification(password):
             raise Exception("Password not valid")
         
         #encrypt
-        encrypted = encrypt(decrypted, publicKey)
+        encrypted = encrypt(password, publicKey)
 
         #from byte to string
         encrypted_str = base64.b64encode(encrypted).decode('utf-8')
 
+        updated_user = {
+            "name": name,
+            "password": encrypted_str
+        }
+
         myquery = { "_id": ObjectId(request["id"])}
-        newvalues = { "$set": { "name": name, "password": encrypted_str } }
+        newvalues = { "$set": updated_user }
         
         collection.update_one(myquery, newvalues)
         cursor = collection.find(myquery)
