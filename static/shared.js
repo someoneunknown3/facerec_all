@@ -52,8 +52,8 @@ async function getUser(){
           }
         })
         .then(jsonData =>{
-          console.log(jsonData)
           user = jsonData["data"]
+          user["_id"] = user["_id"]["$oid"]
         })
         .catch(function(err) {
           console.info(err + " url: " + url)
