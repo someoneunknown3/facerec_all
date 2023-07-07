@@ -20,10 +20,6 @@ async function load_publicKey() {
   
   async function handleSubmit(event) {
     event.preventDefault();
-    if (user != null){
-      window.location.href = '/';
-      alert("You are logged in")
-    }
     try {
       const formData = new FormData(form);
       const data = Object.fromEntries(formData);
@@ -67,12 +63,7 @@ async function load_publicKey() {
       console.error(response.json())
     }
   }
-let user = await verify()
-console.log(user)
-if (user != null){
-  window.location.href = '/';
-  alert("You already logged in")
-}
+
 const form = document.getElementById("register")
 form.addEventListener('submit', handleSubmit);
 
