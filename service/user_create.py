@@ -49,7 +49,8 @@ def user_create(collection, request):
 
         # Retrieve the inserted document
         myquery = { "_id": ObjectId(inserted_id)}
-        inserted_document = collection.find_one(myquery)
+        projection = {'password': 0}
+        inserted_document = collection.find_one(myquery, projection)
         json_data = json.loads(dumps(inserted_document))
         return validation_response("Success Create User", 200, data=json_data)
     except Exception as e:

@@ -9,6 +9,7 @@ from .loadPublic import *
 
 def user_update(collection, request):
     try:
+        print(request)
         name = request["name"]
         #load Keys
         privateKey2 = load_privateKeys2()
@@ -48,7 +49,8 @@ def user_update(collection, request):
         newvalues = { "$set": updated_user }
         
         collection.update_one(myquery, newvalues)
-        cursor = collection.find(myquery)
+        projection = {'password': 0}
+        cursor = collection.find(myquery, projection)
         list_cur = list(cursor)
         if list_cur == []:
             raise Exception("Failed Update")
