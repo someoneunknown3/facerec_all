@@ -36,7 +36,9 @@ def upload(upload_folder, file1, collection, request):
         new_image = {
             "_id": id,
             "image_name": request['name'],
-            "image_path": file_path
+            "image_path": file_path,
+            "face_encoding": location1[0],
+            "face_landmark": landmark1[0]
         }
         cursor = collection.insert_one(new_image)
         inserted_id = cursor.inserted_id
