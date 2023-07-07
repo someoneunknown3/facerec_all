@@ -1,7 +1,6 @@
 from flask import Flask, render_template, Response, jsonify, request, redirect, send_file
 
 import json
-import requests
 from service.loadPublic import get_publicKey_str
 from service.detect import detection
 from service.facerec_webcam import gen_frames
