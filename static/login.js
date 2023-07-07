@@ -20,10 +20,6 @@ async function encryptRSA(publicKey, plaintext) {
 
 async function handleSubmit(event) {
   event.preventDefault();
-  if(form == null){
-    window.location.href = '/';
-    alert("You already logged in")
-  }
   try {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
@@ -65,15 +61,7 @@ async function handleSubmit(event) {
     console.error(response.json())  
   }
 }
-let form = null
-let user = verify()
-  .then(data => {
-    if (data != null){
-      window.location.href = '/';
-      alert("You already logged in")
-    }
-    form = document.getElementById("login");
-    form.addEventListener('submit', handleSubmit);
-  })
+let form = document.getElementById("login");
+form.addEventListener('submit', handleSubmit);
 
 
