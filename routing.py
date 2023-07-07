@@ -162,7 +162,7 @@ def log():
 def log_get():
     page = request.args.get('page', default=1, type=int)
     limit = request.args.get('limit', default=10, type=int)
-    sort_by = request.args.get('sort_by', default='date', type=str)
+    sort_by = request.args.get('sort_by', default='Date', type=str)
     sort = request.args.get('sort', default='DSC', type=str)
     return log_read_page(log_collect, page, limit, sort_by, sort)
 
