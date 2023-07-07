@@ -207,10 +207,11 @@ function create_sidebar(){
     icon.classList.add("nav-icon", "fas", options[op].icon)
 
     let text = document.createElement("p")
+    text.style.fontSize = "18px"
     text.innerHTML = options[op].text
 
-    icon.appendChild(text)
     link.appendChild(icon)
+    link.appendChild(text)
     li.appendChild(link)
     ul.appendChild(li)
   }
