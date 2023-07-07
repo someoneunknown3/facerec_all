@@ -1,4 +1,4 @@
-async function getLog(page = 1, limit = 10, sort = 'DSC', sort_by = 'date'){
+async function getLog(page = 1, limit = 10, sort = 'DSC', sort_by = 'Date'){
     const url_param = "page=" + page + "&" + "limit=" + limit +  "&" + "sort=" + sort + "&" +"sort_by=" + sort_by
     const url = '/log-page?' + url_param
     return await fetch(url)
@@ -12,6 +12,7 @@ async function getLog(page = 1, limit = 10, sort = 'DSC', sort_by = 'date'){
         }
     })
     .then(data => {
+        console.log(data)
         return data["data"]
     })
     .catch(function(err) {
@@ -48,9 +49,9 @@ async function handlePagination(page, limit, sort, sort_by) {
 }
 
 
-async function createGrid(page = 1, limit = 10, sort = 'DSC', sort_by = 'date') {
+async function createGrid(page = 1, limit = 10, sort = 'DSC', sort_by = 'Date') {
     try {
-      let field = ["username", "action", "date"]
+      let field = ["Username", "Action", "Date"]
       let data = await getLog(page, limit, sort, sort_by);
       let items = data["items"]
       let table_head = document.getElementById("table_head");
