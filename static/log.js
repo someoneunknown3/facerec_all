@@ -99,6 +99,25 @@ async function createGrid(page = 1, limit = 10, sort = 'DSC', sort_by = 'Date') 
       entries.innerHTML = "Showing " + (limit * (page - 1) + empty) + " to " + (limit * page - (limit - item_this_page)) + " of " + total_count + " entries"
       
       let pagination = document.getElementById("pagination")
+
+      let first = document.createElement("li");
+      first.id = "page";
+      pagination.appendChild(first);
+        
+      let first_link = document.createElement("div");
+      first_link.classList.add("button")
+      first_link.innerHTML = "First";
+
+      first.appendChild(first_link);
+      if(current_page > 1){
+        first_link.classList.add("button-able")
+        first_link.classList.add("btn-success")
+        first_link.addEventListener('click', () => handlePagination(1, item_per_page, direction, column));
+      }
+      else{
+        first_link.classList.add("button-gray") 
+      }
+
       let prev = document.createElement("li");
       prev.id = "page";
       pagination.appendChild(prev);
@@ -136,6 +155,7 @@ async function createGrid(page = 1, limit = 10, sort = 'DSC', sort_by = 'Date') 
            div.classList.add("button-chosen") 
         }
       }
+
       let next = document.createElement("li");
       next.id = "page";
       pagination.appendChild(next);
@@ -152,6 +172,24 @@ async function createGrid(page = 1, limit = 10, sort = 'DSC', sort_by = 'Date') 
       }
       else{
         next_link.classList.add("button-gray") 
+      }
+
+      let last = document.createElement("li");
+      last.id = "page";
+      pagination.appendChild(last);
+        
+      let last_link = document.createElement("div");
+      last_link.classList.add("button")
+      last_link.innerHTML = "Last";
+
+      last.appendChild(last_link);
+      if(current_page < total_page){
+        last_link.classList.add("button-able")
+        last_link.classList.add("btn-success")
+        last_link.addEventListener('click', () => handlePagination(total_page, item_per_page, direction, column));
+      }
+      else{
+        last_link.classList.add("button-gray") 
       }
 
 
