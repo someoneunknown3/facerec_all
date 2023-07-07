@@ -1,20 +1,33 @@
+.login-box{
+    width: 500px;
+}
 
-
+@media (max-width: 576px) {
+    .login-box{
+      margin-top: 0.5rem;
+      width: 90%;
+    }
+  }
+  
 .account-title{
     font-size: 1.6rem;
     text-align: left;
 }
 
 .input-group-append-1{
-    width: 40%;
+    width: 30%;
 }
 
 .input-group-append-2{
-    width: 60%;
+    width: 70%;
 }
 
+.submit-button{
+    background-color: #28a745;
+    color: white;
+}
 
-.username1{
+.text1{
     width:100%;
     display: block;
     color: white !important;
@@ -26,9 +39,15 @@
     font-family: inherit !important;
 }   
 
-.username2{
+.text2{
     width: 100%;
     border-left: 0;
+    color: black !important;
+    text-align: left;
+}
+
+.protect{
+    -webkit-text-security: disc;
 }
 
 .edit-border{
