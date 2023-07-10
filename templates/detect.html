@@ -3,28 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TEST</title>
+  <title>Face Rec | Detect</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
-  <!-- <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css"> -->
   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='plugins/fontawesome-free/css/all.min.css')}}">
   <!-- overlayScrollbars -->
-  <!-- <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css"> -->
   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
   <!-- Theme style -->
-  <!-- <link rel="stylesheet" href="dist/css/adminlte.min.css"> -->
   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='dist/css/adminlte.min.css')}}">
   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='detect.css')}}">
 </head>
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper" id="wrapper">
-  
-
-  <!-- Main Sidebar Container -->
-
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -65,10 +58,6 @@
               </div>
             </div>
             <div class="card-body">
-              <!-- <div class="form-group">
-                <label for="inputName">Name</label>
-                <input type="text" name="jsonData", id=name class="form-control">
-              </div> -->
               <div class="form-group">
                 <label for="inputClientCompany">Choose Method: </label>
                 <div class="btn-group">
@@ -122,11 +111,6 @@
               </div>
             </div>
             <div class="card-body">
-              <!-- <div class="progress progress-sm d-none" id="progress">
-                <div class="progress-bar bg-primary progress-bar-striped" role="progressbar"
-                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progress-bar">
-                </div>
-              </div> -->
               <div class="form-group" id="images">
               </div>
             </div>
@@ -138,17 +122,6 @@
     </section>
     <!-- /.content -->
 
-  <!-- Control Sidebar -->
-  <!-- /.control-sidebar -->
-
-  <!-- Main Footer -->
-  <!-- <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
-    </div>
-  </footer> -->
 </div>
 <!-- ./wrapper -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js'></script>
@@ -157,35 +130,21 @@
 <script  src="{{url_for('static', filename='detect.js')}}"></script>
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
-<!-- <script src="plugins/jquery/jquery.min.js"></script> -->
 <script src="{{url_for('static', filename='plugins/jquery/jquery.min.js')}}"></script>
 <!-- Bootstrap -->
-<!-- <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script> -->
 <script src="{{url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- overlayScrollbars -->
-<!-- <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script> -->
 <script src="{{url_for('static', filename='plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
 <!-- AdminLTE App -->
-<!-- <script src="dist/js/adminlte.js"></script> -->
 <script src="{{url_for('static', filename='dist/js/adminlte.js')}}"></script>
 
 <!-- PAGE PLUGINS -->
 <!-- jQuery Mapael -->
-<!-- <script src="plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
-<script src="plugins/raphael/raphael.min.js"></script>
-<script src="plugins/jquery-mapael/jquery.mapael.min.js"></script>
-<script src="plugins/jquery-mapael/maps/usa_states.min.js"></script> -->
 <script src="{{url_for('static', filename='plugins/jquery-mousewheel/jquery.mousewheel.js')}}"></script>
 <script src="{{url_for('static', filename='plugins/raphael/raphael.min.js')}}"></script>
 <script src="{{url_for('static', filename='plugins/jquery-mapael/jquery.mapael.min.js')}}"></script>
 <script src="{{url_for('static', filename='plugins/jquery-mapael/maps/usa_states.min.js')}}"></script>
 <!-- ChartJS -->
-<!-- <script src="plugins/chart.js/Chart.min.js"></script> -->
 <script src="{{url_for('static', filename='plugins/chart.js/Chart.min.js')}}"></script>
-
-<!-- AdminLTE for demo purposes -->
-<!-- <script src="dist/js/demo.js"></script> -->
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<!-- <script src="dist/js/pages/dashboard2.js"></script> -->
 </body>
 </html>
