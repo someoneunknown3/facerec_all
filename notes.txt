@@ -1,0 +1,8 @@
+pip install pyjwt==2.7.0 -> pip uninstall jwt
+
+
+pip install waitress -> windows
+waitress-serve --listen=127.0.0.1:5000 routing:app
+
+pip install gunicorn -> unix
+gunicorn-serve --listen=127.0.0.1:5000 routing:app
