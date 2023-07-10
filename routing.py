@@ -21,6 +21,9 @@ from service.response import validation_response
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 
+from waitress import serve
+
+
 app = Flask(__name__)
 app.json.sort_keys = False
 app.config['UPLOAD_FOLDER'] = "service\\faces"
@@ -32,6 +35,7 @@ client = MongoClient(uri, server_api=ServerApi('1'))
 db = client['db_test_baru']
 user_collect = db['user']
 user_collect.create_index('name', unique = True)
+user_collect.create_index('email', unique = True)
 
 face_collect = db['faces']
 
@@ -112,12 +116,7 @@ def enroll():
 @app.route('/enroll-route', methods=['POST'])
 def enroll_route():
     if request.method == 'POST':
-        if 'file1' not in request.files:
-            return validation_response("File not found", 400)
-        file1 = request.files['file1']
-        data_str = request.form.get('name')
-        data_json = json.loads(data_str)
-        return upload(app.config['UPLOAD_FOLDER'], file1, face_collect, data_json)
+        return upload(app.config['UPLOAD_FOLDER'], face_collect, request.json)
 
 @app.route('/compare')
 def compare_func():
@@ -174,5 +173,7 @@ def log_route():
 def account():
     return render_template('account.html')
 
+# if __name__ == '__main__':
+#     app.run(debug=True)
 if __name__ == '__main__':
-    app.run(debug=True)
+    serve(app, host='127.0.0.1', port=5000)
