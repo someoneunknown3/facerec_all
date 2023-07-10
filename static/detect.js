@@ -17,8 +17,6 @@ let photo_src = null;
 let camera_src = null;
 let camera_exist = false;
 
-// let progress = document.getElementById("progress")
-// let progress_bar = document.getElementById("progress-bar")
 let sendURL = null;
 
 let activeStream = null;
@@ -92,9 +90,6 @@ async function detect_success(){
   function handleSubmit(event) {
       event.preventDefault();
       try {
-          // progress.classList.remove("d-none")
-          // progress_bar.style.width = "0%";
-          // setTimeout(() => {  progress_bar.style.width = "20%" }, 1000);
           var canvas = document.createElement('canvas');
           canvas.width = screenshotImage.naturalWidth;
           canvas.height = screenshotImage.naturalHeight;
@@ -109,7 +104,6 @@ async function detect_success(){
           let jsonData = {
               "url_src": url_src 
           }
-          // setTimeout(() => {  progress_bar.style.width = "60%" }, 3000);
           const json = JSON.stringify(jsonData);
           const url = "/detect-route"
           fetch(url, {
@@ -129,8 +123,6 @@ async function detect_success(){
           }
         })
         .then(jsonData =>{
-          // progress_bar.style.width = "100%"
-          // setTimeout(() => {  progress.classList.add("d-none") }, 1000);
           let data = jsonData["data"]
           let imgURLs = data["dataURL"]
           let similarities = data["similarities"]
@@ -160,12 +152,10 @@ async function detect_success(){
           }
         })
         .catch(function(err) {
-          // progress_bar.style.width = "0%";
           console.info(err + " url: " + url)
         });
         
       } catch (error) {
-        // progress_bar.style.width = "0%";
         console.error('An error occurred:', error);
       }
   }
