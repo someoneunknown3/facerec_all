@@ -5,25 +5,20 @@ import json
 from bson.json_util import dumps
 from .response import validation_response
 import os
+import base64
+from io import BytesIO
 
-
-
-# You can change this to any folder on your system
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-def upload(upload_folder, file1, collection, request):
+def upload(upload_folder, collection, request):
     # Load the uploaded image file
     try:
-        if file1.filename == '' or not (file1 and allowed_file(file1.filename)):
-            raise Exception("Failed face enroll")
         if len(request["name"]) <= 0:
             raise Exception("Name is empty")
-        image = Image.open(file1)
-        img1 = face_recognition.load_image_file(file1)
+        data_url = request["url_src"]
+        image_data = base64.b64decode(data_url.split(',')[1])
+        # frame = face_recognition.load_image_file(BytesIO(image_data))
+        # image = Image.open(BytesIO(image_data))
+        img1 = face_recognition.load_image_file(BytesIO(image_data))
+        image = Image.fromarray(img1)
         location1 = face_recognition.face_locations(img1)
         if len(location1) <= 0:
             raise Exception("Face not found")
@@ -32,8 +27,7 @@ def upload(upload_folder, file1, collection, request):
         encoding1 = face_recognition.face_encodings(img1)
         landmark1 = face_recognition.face_landmarks(img1, location1)
         id = ObjectId()
-        split_tup = os.path.splitext(file1.filename)
-        file_path = os.path.join(upload_folder, str(id) + split_tup[1])
+        file_path = os.path.join(upload_folder, str(id) + ".png")
         encoding = encoding1[0].tolist()
         new_image = {
             "_id": id,
@@ -43,6 +37,7 @@ def upload(upload_folder, file1, collection, request):
             "face_location": location1[0],
             "face_landmark": landmark1[0]
         }
+
         cursor = collection.insert_one(new_image)
         inserted_id = cursor.inserted_id
 
