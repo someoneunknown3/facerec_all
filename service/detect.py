@@ -4,6 +4,7 @@ import face_recognition
 import base64
 from .response import validation_response
 from PIL import Image
+import numpy as np
     
 def detection(collection, data_url):
     # Load the uploaded image file
@@ -17,10 +18,11 @@ def detection(collection, data_url):
         face_locations = face_recognition.face_locations(frame)
         face_encodings = face_recognition.face_encodings(frame, face_locations)
         for face in faces:
-                encoded_image = face_recognition.load_image_file(face["image_path"])
-                image_encoding = face_recognition.face_encodings(encoded_image)
+                # encoded_image = face_recognition.load_image_file(face["image_path"])
+                # image_encoding = face_recognition.face_encodings(encoded_image)
+                image_encoding = np.array(face["face_encoding"])
                 if len(image_encoding) > 0 and len(face_encodings) > 0:
-                    similarities = face_recognition.face_distance(image_encoding, face_encodings[0])
+                    similarities = face_recognition.face_distance(face_encodings, image_encoding)
                     similar = 1 - similarities[0]
                     if similar > 0.6:
                         known_face_names.append(face["image_name"])
