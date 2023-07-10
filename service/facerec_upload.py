@@ -29,15 +29,18 @@ def upload(upload_folder, file1, collection, request):
             raise Exception("Face not found")
         if len(location1) > 1:
             raise Exception("Can only submit one face at a time")
+        encoding1 = face_recognition.face_encodings(img1)
         landmark1 = face_recognition.face_landmarks(img1, location1)
         id = ObjectId()
         split_tup = os.path.splitext(file1.filename)
         file_path = os.path.join(upload_folder, str(id) + split_tup[1])
+        encoding = encoding1[0].tolist()
         new_image = {
             "_id": id,
             "image_name": request['name'],
             "image_path": file_path,
-            "face_encoding": location1[0],
+            "face_encoding": encoding,
+            "face_location": location1[0],
             "face_landmark": landmark1[0]
         }
         cursor = collection.insert_one(new_image)
