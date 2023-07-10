@@ -31,9 +31,10 @@ def initialize(collection):
     faces = collection.find()
     for face in faces:
             known_face_names.append(face["image_name"])
-            encoded_image = face_recognition.load_image_file(face["image_path"])
-            image_encoding = face_recognition.face_encodings(encoded_image)
-            known_face_encodings.append(image_encoding[0])
+            # encoded_image = face_recognition.load_image_file(face["image_path"])
+            # image_encoding = face_recognition.face_encodings(encoded_image)
+            image_encoding = np.array(face["face_encoding"])
+            known_face_encodings.append(image_encoding) 
 
 def get_face(frame):
     global face_locations, process_this_frame, face_real, face_names, known_face_encodings, known_face_names
