@@ -26,7 +26,7 @@ from waitress import serve
 
 app = Flask(__name__)
 app.json.sort_keys = False
-app.config['UPLOAD_FOLDER'] = "service\\faces"
+app.config['UPLOAD_FOLDER'] = "faces"
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000
 uri = "mongodb+srv://elliotnathanpradjonggo1:test@cluster0.iluc3nm.mongodb.net/?retryWrites=true&w=majority"
 

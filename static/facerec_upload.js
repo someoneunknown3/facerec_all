@@ -76,7 +76,6 @@ async function upload_success(){
         }
       })
       .then(jsonData =>{
-        console.log(jsonData)
       })
       .catch(function(err) {
         console.info(err + " url: " + url)

@@ -9,7 +9,6 @@ from .loadPublic import *
 
 def user_update(collection, request):
     try:
-        print(request)
         name = request["name"]
         #load Keys
         privateKey2 = load_privateKeys2()

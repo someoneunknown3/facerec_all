@@ -49,7 +49,6 @@ async function handleSubmit(event) {
     .then(jsonData =>{
       sessionStorage.setItem('token', jsonData.data.token);
       let myValue = sessionStorage.getItem('token');
-      console.log(myValue)
       window.location.href = '/';
     })
     .catch(function(err) {

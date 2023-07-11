@@ -37,7 +37,6 @@ async function handleSubmit(user) {
       jsonData["password"] = await encryptRSA(publicKey, jsonData["password"]);
       jsonData["retype"] = await encryptRSA(publicKey, jsonData["retype"]);
       let json = JSON.stringify(jsonData);
-      console.log(json)
       const url = "/update-user"
       await fetch(url, {
         method: "PUT",

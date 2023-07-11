@@ -12,7 +12,6 @@ async function getLog(page = 1, limit = 10, sort = 'DSC', sort_by = 'Date'){
         }
     })
     .then(data => {
-        console.log(data)
         return data["data"]
     })
     .catch(function(err) {
