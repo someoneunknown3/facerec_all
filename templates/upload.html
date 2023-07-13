@@ -61,7 +61,7 @@
             <div class="card-body">
               <div class="form-group">
                 <label for="inputName">Name</label>
-                <input type="text" name="jsonData", id=name class="form-control">
+                <input type="text" class="form-control" id="name">
               </div>
               <div class="form-group">
                 <label for="inputClientCompany">Choose Method: </label>
@@ -71,7 +71,7 @@
                 </div>
               </div>
               <div id="choose_photo" class="form-group">
-                <input class="display-block" type="file" name="file1", multiple="false" accept="image/*", id=file1 onchange="loadFile(event, 'output')">
+                <input class="display-block" type="file" name="file1", multiple="false" accept="image/*", id=file1 onchange="loadFile(event, 'photo')">
               </div>
               <div id="choose_camera" class="form-group d-none">
                 <div class="display-cover">
@@ -96,7 +96,7 @@
                     <label for="inputClientCompany">Photo :</label>
                 </div>
                 <div class="row">
-                    <img id="output" class="image_helper">
+                    <img id="photo" class="image_helper">
                 </div>
               </div>
             </div>
@@ -130,6 +130,8 @@
 </div>
 <!-- ./wrapper -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js'></script>
+
+<script src="{{url_for('static', filename='file_form.js')}}"></script>
 <script src="{{url_for('static', filename='shared.js')}}"></script>
 <script src="{{url_for('static', filename='menu.js')}}"></script>
 <script  src="{{url_for('static', filename='facerec_upload.js')}}"></script>

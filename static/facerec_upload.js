@@ -4,7 +4,7 @@ const controls = document.querySelector('.controls');
 const cameraOptions = document.querySelector('.video-options>select');
 const video = document.querySelector('video');
 const canvas = document.querySelector('canvas');
-const screenshotImage = document.getElementById("output");
+const screenshotImage = document.getElementById("photo");
 const screenshotForm = document.getElementById("form_output");
 const buttons = [...controls.querySelectorAll('button')];
 let streamStarted = false;
@@ -91,17 +91,24 @@ function handleSubmit(event) {
       var canvas = document.createElement('canvas');
       canvas.width = screenshotImage.naturalWidth;
       canvas.height = screenshotImage.naturalHeight;
-        
+
       var ctx = canvas.getContext('2d');
       ctx.drawImage(screenshotImage, 0, 0);
-          
+      
       let url_src = canvas.toDataURL('image/png');
-          
+      if(url_src == "data:,"){
+        url_src = ""
+      }
       let name = document.getElementById("name").value
       let jsonData = {
         "name": name,
-        "url_src": url_src 
+        "photo": url_src 
       }
+
+      let [error_msg, newDict] = form_file_error(jsonData)
+
+      form_color(newDict)
+
       const json = JSON.stringify(jsonData);
       const url = "/enroll-route"
       fetch(url, {
@@ -112,25 +119,33 @@ function handleSubmit(event) {
           }
       })
     .then(response =>{
-      if (response.ok) {
-        upload_success()
-        return response.json()
-      } else {
-        console.error('Error:', response.status);
-        console.error(response.json())
-      }
+      return response.json()
     })
     .then(jsonData =>{
-      jsonElement = document.getElementById("json")
-      jsonElement.style.color = "white";
-      jsonElement.textContent = JSON.stringify(jsonData, undefined, 2);
+      if(jsonData["code"] == 200){
+        upload_success()
+        jsonElement = document.getElementById("json")
+        jsonElement.style.color = "white";
+        jsonElement.textContent = JSON.stringify(jsonData, undefined, 2);
+      }
+      else{
+        for(box of jsonData["data"]["error"]){
+          newDict[box] = false
+        }
+        form_color(newDict)
+        if(error_msg.length > 0){
+          throw error_msg
+        }
+        throw(jsonData["data"]["error_msg"])
+      }
     })
     .catch(function(err) {
-      console.info(err + " url: " + url)
+      create_error(err) 
     });
     
   } catch (error) {
     console.error('An error occurred:', error);
+    create_error(error)
   }
 }
     
@@ -147,7 +162,6 @@ cameraOptions.onchange = () => {
       }
     }
   };
-  console.log(cameraOptions)
   startStream(updatedConstraints);
 };
 

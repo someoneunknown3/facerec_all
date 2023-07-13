@@ -11,19 +11,38 @@ from io import BytesIO
 def upload(upload_folder, collection, request):
     # Load the uploaded image file
     try:
+        queries = []
+        error_msg = []
+
+        print(request)
+
         if len(request["name"]) <= 0:
+            queries.append("name")
+            error_msg.append("Name is empty")
+
+        if len(queries) > 0:
             raise Exception("Name is empty")
-        data_url = request["url_src"]
+
+        data_url = request["photo"]
         image_data = base64.b64decode(data_url.split(',')[1])
-        # frame = face_recognition.load_image_file(BytesIO(image_data))
-        # image = Image.open(BytesIO(image_data))
         img1 = face_recognition.load_image_file(BytesIO(image_data))
         image = Image.fromarray(img1)
         location1 = face_recognition.face_locations(img1)
+        
         if len(location1) <= 0:
+            queries.append("photo")
+            error_msg.append("Face not found")
+
+        if len(error_msg) > 0:
             raise Exception("Face not found")
+        
         if len(location1) > 1:
-            raise Exception("Can only submit one face at a time")
+            queries.append("photo")
+            error_msg.append("Can only submit one face at a time")
+
+        if len(error_msg) > 0:
+           raise Exception("Can only submit one face at a time")
+
         encoding1 = face_recognition.face_encodings(img1)
         landmark1 = face_recognition.face_landmarks(img1, location1)
         id = ObjectId()
@@ -71,8 +90,7 @@ def upload(upload_folder, collection, request):
     except Exception as e:
         print(e)
         json_data = {
-                        "subject_id": "",
-                        "session_id": "",
-                        "timestamp": 0,
+            "error": queries,
+            "error_msg":error_msg
         }
         return validation_response("Face enroll failed", 400, data=json_data)
