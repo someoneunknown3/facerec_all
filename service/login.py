@@ -20,7 +20,7 @@ def login(collection, request):
         list_cur = list(cursor)
 
         if len(list_cur) <= 0:
-            queries.append("password")
+            queries.append("name")
             error_msg.append("User not found")
 
         if len(queries) > 0:

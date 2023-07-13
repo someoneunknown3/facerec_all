@@ -38,7 +38,6 @@ async function handleSubmit(event) {
         'Content-Type': 'application/json'
       },
       body: json,
-      referrer: "/"
     })
     .then(response =>{
       return response.json()
@@ -49,7 +48,6 @@ async function handleSubmit(event) {
         window.location.href = '/';
       }
       else{
-        console.error('Error:', response.status);
         for(box of jsonData["data"]["error"]){
           newDict[box] = false
         }
