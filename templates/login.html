@@ -13,12 +13,13 @@
   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='dist/css/adminlte.min.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='shared.css')}}">
   
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="/"><b>Face</b>Rec</a>
+    <b>Face</b>Rec
   </div>
   <!-- /.login-logo -->
   <div class="card">
@@ -29,16 +30,16 @@
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Username" name="name">
           <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
+            <div class="input-group-text" name="name">
+              <span class="fas fa-envelope" name="name"></span>
             </div>
           </div>
         </div>
         <div class="input-group mb-3">
           <input type="password" class="form-control" placeholder="Password" name="password">
           <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
+            <div class="input-group-text" name="password">
+              <span class="fas fa-lock" name="password"></span>
             </div>
           </div>
         </div>
