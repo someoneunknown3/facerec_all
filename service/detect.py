@@ -43,7 +43,7 @@ def detection(collection, data_url):
     except Exception as e:
         print(e)
         json_data = {
-                        "data":"test"
+                        "error":e
                     }
         return validation_response("Face detection failed", 400, data=json_data)
 

@@ -113,7 +113,7 @@ function handleSubmit(event) {
       })
     .then(response =>{
       if (response.ok) {
-        // upload_success()
+        upload_success()
         return response.json()
       } else {
         console.error('Error:', response.status);
@@ -133,79 +133,6 @@ function handleSubmit(event) {
     console.error('An error occurred:', error);
   }
 }
-
-  // function handleSubmit(event) {
-  //     event.preventDefault();
-  //     try {
-  //         var canvas = document.createElement('canvas');
-  //         canvas.width = screenshotImage.naturalWidth;
-  //         canvas.height = screenshotImage.naturalHeight;
-        
-  //         // Draw the image onto the canvas
-  //         var ctx = canvas.getContext('2d');
-  //         ctx.drawImage(screenshotImage, 0, 0);
-          
-  //         // Get the data URL of the image
-  //         let url_src = canvas.toDataURL('image/png');
-          
-  //         let jsonData = {
-  //             "url_src": url_src 
-  //         }
-  //         const json = JSON.stringify(jsonData);
-  //         const url = "/enroll-route"
-  //         fetch(url, {
-  //             method: "POST",
-  //             body: json,
-  //             headers: {
-  //               'Content-Type': 'application/json'
-  //           }
-  //         })
-  //       .then(response =>{
-  //         if (response.ok) {
-  //           detect_success()
-  //           return response.json()
-  //         } else {
-  //           console.error('Error:', response.status);
-  //           console.error(response.json())
-  //         }
-  //       })
-  //       .then(jsonData =>{
-  //         let data = jsonData["data"]
-  //         let imgURLs = data["dataURL"]
-  //         let similarities = data["similarities"]
-  //         let names = data["names"]
-  //         let result_image = document.getElementById("images")
-  //         result_image.innerHTML = ''
-  //         for(let elem in imgURLs){
-  //           let row_name = document.createElement("div")
-  //           row_name.classList.add("row")
-  //           let label1 = document.createElement("label")
-  //           label1.innerHTML = "Name : " + names[elem]
-  //           row_name.appendChild(label1)
-  //           let row_similarities = document.createElement("div")
-  //           row_similarities.classList.add("row")
-  //           let label2 = document.createElement("label")
-  //           label2.innerHTML = "Similarities : " + similarities[elem]
-  //           row_similarities.appendChild(label2)
-  //           let row_image = document.createElement("div")
-  //           row_image.classList.add("row")
-  //           let image_tag = document.createElement("img")
-  //           image_tag.src = imgURLs[elem]
-  //           image_tag.classList.add("image_helper")
-  //           row_image.appendChild(image_tag)
-  //           result_image.appendChild(row_name)
-  //           result_image.appendChild(row_similarities)
-  //           result_image.appendChild(row_image)
-  //         }
-  //       })
-  //       .catch(function(err) {
-  //         console.info(err + " url: " + url)
-  //       });
-        
-  //     } catch (error) {
-  //       console.error('An error occurred:', error);
-  //     }
-  // }
     
   const submit = document.getElementById("upload")    
   submit.addEventListener('click', handleSubmit);
@@ -213,11 +140,14 @@ function handleSubmit(event) {
 cameraOptions.onchange = () => {
   const updatedConstraints = {
     ...constraints,
-    deviceId: {
+    video: {
+      ...constraints.video,
+      deviceId: {
       exact: cameraOptions.value
+      }
     }
   };
-
+  console.log(cameraOptions)
   startStream(updatedConstraints);
 };
 

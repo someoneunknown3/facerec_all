@@ -66,6 +66,7 @@ def upload(upload_folder, collection, request):
                             "veil_on": False
                         }
                     }
+
         return validation_response("Face enroll Success", 200, data=json_data)
     except Exception as e:
         print(e)
