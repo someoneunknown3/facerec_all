@@ -114,7 +114,6 @@ async function handleSubmit(event) {
       return response.json()
     })
     .then(jsonData =>{
-      console.log(jsonData)
       if(jsonData["code"] == 200){
         window.location.href = '/account';
       }
@@ -160,13 +159,18 @@ function handleCancel(){
   const passwordElements = document.querySelectorAll('#password');
   const button = document.getElementById("button")
   const cancel = document.getElementById("cancel")
-  const userElements = document.querySelectorAll('#user-info');
   for(elem of passwordElements){
     elem.remove()
   }
   for(i in accounts){
-    userElements[i].value = user[accounts[i]["key"]]
-    userElements[i].disabled = true
+    let tags = document.getElementsByName(accounts[i]["key"]);
+    tags[0].removeAttribute("style");
+    tags[0].value = user[accounts[i]["key"]]
+    tags[0].disabled = true
+    tags[1].removeAttribute("style");
+    tags[2].className = "";
+    tags[2].classList.add("fas", accounts[i]["symbol"])
+    tags[2].removeAttribute("style");
   }
   cancel.innerHTML = ""
   button.innerHTML = ""
