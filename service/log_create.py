@@ -7,11 +7,11 @@ def log_create(log_collection, user_collection, request):
     try:
         date = datetime.datetime.now()
         date_str = date.strftime('%Y-%m-%d %H:%M:%S')
-        inserted_document = {"name": "guest"}
+        
         projection = {'password': 0, "_id": 0}
-        if request["user_id"] != "guest":
-            myquery = { "_id": ObjectId(request["user_id"])}
-            inserted_document = user_collection.find_one(myquery, projection)
+        myquery = { "_id": ObjectId(request["user_id"])}
+        inserted_document = user_collection.find_one(myquery, projection)
+        
         new_log= {
             "Username": inserted_document["name"],
             "Action": request["action"],
