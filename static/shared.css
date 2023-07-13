@@ -1,0 +1,14 @@
+.error-module{
+    position:fixed;
+    bottom:0;
+    right:0;
+    max-width:450px;
+    z-index:999;
+    margin: 10px;
+    border: 2px solid darkred;
+}
+
+.error-button{
+    padding: 0.2rem 0.75rem !important;
+    color: black !important;
+}
