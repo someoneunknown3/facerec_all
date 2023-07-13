@@ -41,6 +41,7 @@ function form_login_error(form){
 }
 
 function form_color(form){
+  console.log(form)
   for(elem in form){
     if(form[elem]){
       greenBox(elem)
