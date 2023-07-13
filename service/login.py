@@ -10,6 +10,22 @@ from Crypto.PublicKey import RSA
 def login(collection, request):
     
     try:
+        name = request["name"]
+
+        queries = []
+        error_msg = []
+
+        query = {"name": name}
+        cursor = collection.find(query)
+        list_cur = list(cursor)
+
+        if len(list_cur) <= 0:
+            queries.append("password")
+            error_msg.append("User not found")
+
+        if len(queries) > 0:
+            raise Exception("user not found")
+
         #load keys
         private_key2 = load_privateKeys2()
         private_key = load_privateKeys()
@@ -24,14 +40,11 @@ def login(collection, request):
         password_input = decrypted.decode('utf-8')
         
         if not password_input:
+            error_msg.append("Error")
+
+        if len(error_msg) > 0:
             raise Exception("Password input false")
         
-        #find the user
-        query = {"name": request["name"]}
-        cursor = collection.find(query)
-        list_cur = list(cursor)
-        if len(list_cur) <= 0:
-            raise Exception("user not found")
         user = list_cur[0]
 
         #from string to byte
@@ -40,9 +53,16 @@ def login(collection, request):
         #decrypt db 
         password_db = decrypt(decodable2, private_key)
         if not password_db:
-            raise Exception("Password db false")
-
+            error_msg.append("Error")
+        
+        if len(error_msg) > 0:
+            raise Exception("password db false")
+        
         if password_input != password_db:
+            queries.append("password")
+            error_msg.append("Password wrong")
+
+        if len(queries) > 0:
             raise Exception("Password wrong")
 
         payload = {
@@ -56,4 +76,8 @@ def login(collection, request):
         return validation_response("Login Success", 200, data=data)
     except Exception as e:
         print(e)
-        return validation_response("Login Failed", 400)
+        json_data = {
+            "error": queries,
+            "error_msg":error_msg
+        }
+        return validation_response("Login Failed", 400, data=json_data)

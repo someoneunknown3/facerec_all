@@ -23,10 +23,14 @@ async function handleSubmit(event) {
   try {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
+
+    let [error_msg, newDict] = form_login_error(data)
+
     const publicKey = await load_publicKey();
     data.password = await encryptRSA(publicKey, data.password);
     const json = JSON.stringify(data);
     const url = "/login-route"
+
     await fetch(url, {
       method: "POST",
       redirect: 'follow',
@@ -37,30 +41,40 @@ async function handleSubmit(event) {
       referrer: "/"
     })
     .then(response =>{
-      if (response.ok) {
-        // Redirect to another route after successful fetch
-        return response.json()
-      } else {
-        // Handle unsuccessful response
-        console.error('Error:', response.status);
-        console.error(response.json())
-      }
+      return response.json()
     })
     .then(jsonData =>{
-      sessionStorage.setItem('token', jsonData.data.token);
-      let myValue = sessionStorage.getItem('token');
-      window.location.href = '/';
+      if(jsonData["code"] == 200){
+        sessionStorage.setItem('token', jsonData.data.token);
+        window.location.href = '/';
+      }
+      else{
+        console.error('Error:', response.status);
+        for(box of jsonData["data"]["error"]){
+          newDict[box] = false
+        }
+        form_color(newDict)
+        if(error_msg.length > 0){
+          throw error_msg
+        }
+        throw(jsonData["data"]["error_msg"])
+      }
     })
     .catch(function(err) {
-      console.info(err + " url: " + url)
+      create_error(err)  
     });
     
   } catch (error) {
     console.error('An error occurred:', error);
-    console.error(response.json())  
+    create_error(error)
   }
 }
 let form = document.getElementById("login");
 form.addEventListener('submit', handleSubmit);
+form.addEventListener('keypress', function(event) {
+  if (event.key === 'Enter') {
+    handleSubmit(event);
+  }
+});
 
 
