@@ -32,7 +32,6 @@ async function handleLogout(){
         'Content-Type': 'application/json'
       },
       body: json,
-      referrer: "/"
     })
     .then(response =>{
       if (response.ok) {
@@ -131,7 +130,7 @@ async function create_navbar(){
       link_drop_3.addEventListener("click", async function(event) {
         event.preventDefault();
         await handleLogout();
-        window.location.href = '/';
+        window.location.href = '/login';
       });
 
       dropdown.appendChild(link_drop_1)
