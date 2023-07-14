@@ -122,13 +122,14 @@ function handleSubmit(event) {
       return response.json()
     })
     .then(jsonData =>{
+      jsonElement = document.getElementById("json")
       if(jsonData["code"] == 200){
         upload_success()
-        jsonElement = document.getElementById("json")
         jsonElement.style.color = "white";
         jsonElement.textContent = JSON.stringify(jsonData, undefined, 2);
       }
       else{
+        jsonElement.innerHTML = "";
         for(box of jsonData["data"]["error"]){
           newDict[box] = false
         }

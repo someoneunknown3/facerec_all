@@ -9,21 +9,26 @@ import base64
 from io import BytesIO
 
 def upload(upload_folder, collection, request):
-    # Load the uploaded image file
     try:
         queries = []
         error_msg = []
-
-        print(request)
 
         if len(request["name"]) <= 0:
             queries.append("name")
             error_msg.append("Name is empty")
 
-        if len(queries) > 0:
+        if len(error_msg) > 0:
             raise Exception("Name is empty")
 
         data_url = request["photo"]
+
+        if len(data_url) == "":
+            queries.append("name")
+            error_msg.append("Photo is empty")
+
+        if len(error_msg) > 0:
+            raise Exception("Photo is empty")
+        
         image_data = base64.b64decode(data_url.split(',')[1])
         img1 = face_recognition.load_image_file(BytesIO(image_data))
         image = Image.fromarray(img1)
