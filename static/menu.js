@@ -15,43 +15,6 @@ function create_load(){
     wrapper.prepend(loader)
 }
 
-async function handleLogout(){
-  try {
-    sessionStorage.removeItem('token');
-    token = sessionStorage.getItem('token');
-
-    data = {
-      "success": (token == null)
-    }
-    const json = JSON.stringify(data);
-    const url = "logout"
-    await fetch(url, {
-      method: "POST",
-      redirect: 'follow',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: json,
-    })
-    .then(response =>{
-      if (response.ok) {
-        return response.json()
-      } else {
-        console.error('Error:', response.status);
-        console.error(response.json())
-      }
-    })
-    .then(jsonData =>{
-    })
-    .catch(function(err) {
-      console.info(err + " url: " + url)
-    });
-    
-  } catch (error) {
-    console.error('An error occurred:', error);
-  }
-}
-
 async function create_navbar(){
     let user = await getUser()
     let navbar = document.createElement("nav");
