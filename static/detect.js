@@ -100,9 +100,11 @@ async function detect_success(){
           
           // Get the data URL of the image
           let url_src = canvas.toDataURL('image/png');
-          
+          if(url_src == "data:,"){
+            url_src = ""
+          }
           let jsonData = {
-              "url_src": url_src 
+              "photo": url_src 
           }
           const json = JSON.stringify(jsonData);
           const url = "/detect-route"
@@ -114,49 +116,54 @@ async function detect_success(){
             }
           })
         .then(response =>{
-          if (response.ok) {
-            detect_success()
-            return response.json()
-          } else {
-            console.error('Error:', response.status);
-            console.error(response.json())
-          }
+          return response.json()
         })
         .then(jsonData =>{
-          let data = jsonData["data"]
-          let imgURLs = data["dataURL"]
-          let similarities = data["similarities"]
-          let names = data["names"]
-          let result_image = document.getElementById("images")
-          result_image.innerHTML = ''
-          for(let elem in imgURLs){
-            let row_name = document.createElement("div")
-            row_name.classList.add("row")
-            let label1 = document.createElement("label")
-            label1.innerHTML = "Name : " + names[elem]
-            row_name.appendChild(label1)
-            let row_similarities = document.createElement("div")
-            row_similarities.classList.add("row")
-            let label2 = document.createElement("label")
-            label2.innerHTML = "Similarities : " + similarities[elem]
-            row_similarities.appendChild(label2)
-            let row_image = document.createElement("div")
-            row_image.classList.add("row")
-            let image_tag = document.createElement("img")
-            image_tag.src = imgURLs[elem]
-            image_tag.classList.add("image_helper")
-            row_image.appendChild(image_tag)
-            result_image.appendChild(row_name)
-            result_image.appendChild(row_similarities)
-            result_image.appendChild(row_image)
+          console.log(jsonData)
+          if(jsonData["code"] == 200){
+            detect_success()
+            let data = jsonData["data"]
+            let imgURLs = data["dataURL"]
+            let similarities = data["similarities"]
+            let names = data["names"]
+            let result_image = document.getElementById("images")
+            result_image.innerHTML = ''
+            for(let elem in imgURLs){
+              let row_name = document.createElement("div")
+              row_name.classList.add("row")
+              let label1 = document.createElement("label")
+              label1.innerHTML = "Name : " + names[elem]
+              row_name.appendChild(label1)
+              let row_similarities = document.createElement("div")
+              row_similarities.classList.add("row")
+              let label2 = document.createElement("label")
+              label2.innerHTML = "Similarities : " + similarities[elem]
+              row_similarities.appendChild(label2)
+              let row_image = document.createElement("div")
+              row_image.classList.add("row")
+              let image_tag = document.createElement("img")
+              image_tag.src = imgURLs[elem]
+              image_tag.classList.add("image_helper")
+              row_image.appendChild(image_tag)
+              result_image.appendChild(row_name)
+              result_image.appendChild(row_similarities)
+              result_image.appendChild(row_image)
+            }
+          }
+          else{
+            for(box of jsonData["data"]["error"]){
+              newDict[box] = false
+            }
+            throw(jsonData["data"]["error_msg"])
           }
         })
         .catch(function(err) {
-          console.info(err + " url: " + url)
+          create_error(err) 
         });
         
       } catch (error) {
         console.error('An error occurred:', error);
+        create_error(error)
       }
   }
     
