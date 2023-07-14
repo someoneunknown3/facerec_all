@@ -1,12 +1,10 @@
-from .token_encode_decode import *
-import datetime
 from .response import validation_response
 from .encrypt_decrypt import *
 from .loadPrivate import *
 import base64
 from Crypto.Cipher import PKCS1_v1_5
 from Crypto.PublicKey import RSA
-
+from .token_create import createToken
 def login(collection, request):
     
     try:
@@ -65,14 +63,7 @@ def login(collection, request):
         if len(queries) > 0:
             raise Exception("Password wrong")
 
-        payload = {
-            "id": str(user["_id"]),
-            "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1)
-        }
-        token = encode(payload)
-        data = {
-            "token":token
-        }
+        data = createToken(str(user["_id"]))
         return validation_response("Login Success", 200, data=data)
     except Exception as e:
         print(e)
