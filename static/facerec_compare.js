@@ -5,7 +5,7 @@ var loadFile = function(event, output) {
 
 async function compare_success(){
   try {
-      let user_id = "guest"
+      let user_id = ""
       let user = await verify()
         if (user != null){
           user_id = user["id"]
@@ -24,14 +24,10 @@ async function compare_success(){
             },
         })
       .then(response =>{
-        if (response.ok) {
-          return response.json()
-        } else {
-          console.error('Error:', response.status);
-          console.error(response.json())
-        }
+        return response.json()
       })
       .then(jsonData =>{
+        
       })
       .catch(function(err) {
         console.info(err + " url: " + url)
@@ -59,27 +55,30 @@ function handleSubmit(event) {
             redirect: "follow"
         })
       .then(response =>{
-        if (response.ok) {
-          compare_success()
-          return response.json()
-        } else {
-          // Handle unsuccessful response
-          console.error('Error:', response.status);
-          console.error(response.json())
-        }
+        return response.json()
       })
       .then(jsonData =>{
         jsonElement = document.getElementById("json")
-        jsonElement.style.color = "white";
-        jsonElement.textContent = JSON.stringify(jsonData, undefined, 2);
+        if(jsonData["code"] == 200){
+          compare_success()
+          jsonElement.style.color = "white";
+          jsonElement.textContent = JSON.stringify(jsonData, undefined, 2);
+        }
+        else{
+          jsonElement.innerHTML = "";
+          for(box of jsonData["data"]["error"]){
+            newDict[box] = false
+          }
+          throw(jsonData["data"]["error_msg"])
+        }
       })
       .catch(function(err) {
-        console.info(err + " url: " + url)
+        create_error(err) 
       });
       
     } catch (error) {
       console.error('An error occurred:', error);
-      // Handle the error appropriately (e.g., show an error message to the user)
+      create_error(error)
     }
 }
 const submit = document.getElementById("compare")    
