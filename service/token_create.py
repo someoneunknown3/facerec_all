@@ -1,10 +1,11 @@
 from .token_encode_decode import *
 import datetime
 
-def createToken(id):
+def createToken(id, time):
+    
     payload = {
                 "id": id,
-                "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+                "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=time)
             }
     token = encode(payload)
     data = {

@@ -8,7 +8,7 @@ def verification(token):
     try:
         payload = decode(token[5:])
         json_data = {
-            "id": payload["id"],
+            "id": payload["id"]
         }
         return validation_response("Success Verify User", 200, data=json_data)
     except Exception as e:
