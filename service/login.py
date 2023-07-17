@@ -19,7 +19,8 @@ def login(collection, request):
 
         if len(list_cur) <= 0:
             queries.append("name")
-            error_msg.append("User not found")
+            queries.append("password")
+            error_msg.append("User and Password does not match")
 
         if len(queries) > 0:
             raise Exception("user not found")
@@ -57,8 +58,9 @@ def login(collection, request):
             raise Exception("password db false")
         
         if password_input != password_db:
+            queries.append("name")
             queries.append("password")
-            error_msg.append("Password wrong")
+            error_msg.append("User and Password does not match")
 
         if len(queries) > 0:
             raise Exception("Password wrong")
