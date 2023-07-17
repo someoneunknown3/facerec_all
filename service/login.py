@@ -63,7 +63,7 @@ def login(collection, request):
         if len(queries) > 0:
             raise Exception("Password wrong")
 
-        data = createToken(str(user["_id"]))
+        data = createToken(str(user["_id"]), 60)
         return validation_response("Login Success", 200, data=data)
     except Exception as e:
         print(e)

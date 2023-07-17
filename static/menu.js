@@ -151,10 +151,12 @@ function create_sidebar(){
   ul.setAttribute('role', 'menu');
   ul.dataset.accordion = 'false';
 
-  let options = [{href:"compare", text:"Compare", icon:"fa-image"}, 
-              {href:"enroll", text:"Enroll", icon:"fa-th"},
-              {href:"log", text:"Log", icon:"fa-th"},
-              {href:"detect", text:"Detect", icon:"fa-image"}]
+  let options = [
+                  {href:"compare", text:"Compare", icon:"fa-image"}, 
+                  {href:"enroll", text:"Enroll", icon:"fa-upload"},
+                  {href:"detect", text:"Detect", icon:"fa-check"},
+                  {href:"log", text:"Log", icon:"fa-th"}
+                ]
 
   for (op in options){
     let li = document.createElement("li")

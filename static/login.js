@@ -44,7 +44,7 @@ async function handleSubmit(event) {
     })
     .then(jsonData =>{
       if(jsonData["code"] == 200){
-        sessionStorage.setItem('token', jsonData.data.token);
+        sessionStorage.setItem('token', jsonData["data"]["token"]);
         window.location.href = '/';
       }
       else{
