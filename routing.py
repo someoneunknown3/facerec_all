@@ -17,7 +17,8 @@ from service.log_read_page import log_read_page
 from service.login import login
 from service.logout import logout
 from service.token_verification import verification
-from service.response import validation_response
+from service.token_refresh import refresh_token
+from service.token_read import getToken
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 
@@ -60,6 +61,16 @@ def get_public_key():
 def verify():
     headers = request.headers
     return verification(headers.get('Authorization'))
+
+@app.route('/get-token')
+def token_get():
+    headers = request.headers
+    return getToken(headers.get('Authorization'))
+
+@app.route('/refresh-token', methods=['POST'])
+def token_refresh():
+    headers = request.headers
+    return refresh_token(headers.get('Authorization'), request.json)
 
 @app.route('/get-user', methods=['GET'])
 def user_get_all():
@@ -124,14 +135,8 @@ def compare_func():
     
 @app.route('/compare-route', methods=['POST'])
 def compare_route():
-    # Check if a valid image file was uploaded
     if request.method == 'POST':
-        if 'file1' not in request.files or 'file2' not in request.files:
-            return validation_response("File not found", 400)
-
-        file1 = request.files['file1']
-        file2 = request.files['file2']
-        return compare(file1, file2)
+        return compare(request.files)
 
 @app.route('/register')
 def register():
@@ -149,7 +154,7 @@ def detect():
 @app.route('/detect-route', methods=['POST'])
 def detect_route():
     if request.method == 'POST':
-        url_src = request.json['url_src']
+        url_src = request.json['photo']
         return detection(face_collect, url_src)
     
 @app.route('/log')
@@ -173,7 +178,7 @@ def log_route():
 def account():
     return render_template('account.html')
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
 if __name__ == '__main__':
-    serve(app, host='127.0.0.1', port=5000)
+    app.run(debug=True)
+# if __name__ == '__main__':
+#     serve(app, host='127.0.0.1', port=5000)
