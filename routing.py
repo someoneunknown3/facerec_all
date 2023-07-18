@@ -1,6 +1,5 @@
-from flask import Flask, render_template, Response, jsonify, request, redirect, send_file
+from flask import Flask, render_template, Response, jsonify, request, redirect, send_file, url_for
 
-import json
 from service.loadPublic import get_publicKey_str
 from service.detect import detection
 from service.facerec_webcam import gen_frames
@@ -19,6 +18,9 @@ from service.logout import logout
 from service.token_verification import verification
 from service.token_refresh import refresh_token
 from service.token_read import getToken
+from service.forgot_password import forgotPassword
+from service.reset_password import resetPassword
+from service.forgot_link_verification import tokenVerify
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 
@@ -96,7 +98,6 @@ def user_update_route():
 def user_delete_route():
     return user_delete(user_collect, request.json)
 
-
 @app.route('/video_feed')
 def video_feed():
     #Video streaming route. Put this in the src attribute of an img tag
@@ -110,6 +111,28 @@ def facerec_webcam():
 def logout_route():
     success = request.json["success"]
     return logout(success)
+
+@app.route('/forgot-password')
+def forgot_html():
+    return render_template('forgot-password.html')
+
+@app.route('/forgot-route', methods=['PUT'])
+def forgot_route():
+    if request.method == 'PUT':
+        return forgotPassword(user_collect, request.json)
+
+@app.route('/reset-password')
+def reset_html():
+    token = request.args.get('token')   
+    if(tokenVerify(user_collect, token)):
+        return render_template('reset-password.html')
+    return redirect(url_for('login_html'))
+
+@app.route('/reset-route', methods=['PUT'])
+def reset_route():
+    if request.method == 'PUT':
+        token = request.json["token"]
+        return resetPassword(user_collect, request.json, token)
 
 @app.route('/login')
 def login_html():
