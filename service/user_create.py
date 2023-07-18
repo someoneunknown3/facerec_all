@@ -77,7 +77,10 @@ def user_create(collection, request):
         new_user = {
             "email": email,
             "name": name,
-            "password": encrypted_str
+            "password": encrypted_str,
+            "forgot_password": None,
+            "reset_token": None, 
+            "forgot_password_exp": None
         }
         
         cursor = collection.insert_one(new_user)
