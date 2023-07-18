@@ -23,7 +23,6 @@ async function verify(){
         })
         .catch(function(err) {
           console.info(err + " url: " + url)
-          window.location.href = '/login';
         });
         
       } catch (error) {
