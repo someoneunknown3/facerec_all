@@ -1,23 +1,3 @@
-async function load_publicKey() {
-    let key = await fetch('/public-key');
-    let json = await key.json()
-    return json["publicKey"]
-  }
-  
-  async function encryptRSA(publicKey, plaintext) {
-    return new Promise((resolve, reject) => {
-      let encrypt = new JSEncrypt();
-      encrypt.setPublicKey(publicKey);
-      let encrypted = encrypt.encrypt(plaintext);
-      if (encrypted) {
-        resolve(encrypted);
-      } else {
-        reject(new Error('RSA encryption failed'));
-      }
-    });
-  
-  }
-  
   async function handleSubmit(event) {
     event.preventDefault();
     try {
@@ -68,14 +48,6 @@ async function load_publicKey() {
     }
   }
 
-function redirect(){
-  verify().then(data => {
-    if(data != undefined){
-      window.location.href = '/';
-    }
-  })
-}
-redirect()
 const form = document.getElementById("register")
 form.addEventListener('submit', handleSubmit);
 form.addEventListener('keypress', function(event) {
