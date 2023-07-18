@@ -41,7 +41,6 @@ function form_login_error(form){
 }
 
 function form_color(form){
-  console.log(form)
   for(elem in form){
     if(form[elem]){
       greenBox(elem)
@@ -88,4 +87,24 @@ function lengthValid(inputString) {
 
 function passwordVerification(password) {
   return lengthValid(password) && hasNumbers(password) && hasUpper(password);
+}
+
+async function load_publicKey() {
+  let key = await fetch('/public-key');
+  let json = await key.json()
+  return json["publicKey"]
+}
+
+async function encryptRSA(publicKey, plaintext) {
+  return new Promise((resolve, reject) => {
+    let encrypt = new JSEncrypt();
+    encrypt.setPublicKey(publicKey);
+    let encrypted = encrypt.encrypt(plaintext);
+    if (encrypted) {
+      resolve(encrypted);
+    } else {
+      reject(new Error('RSA encryption failed'));
+    }
+  });
+
 }
