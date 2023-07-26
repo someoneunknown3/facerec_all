@@ -146,7 +146,6 @@ function timeout(time){
       timeoutHandle = setTimeout(async () => {
         // Prompt the user to confirm that they are still active
         const isActive = await timeoutBox(30000)
-        console.log(isActive)
         if (isActive) {
           let time = 10
           refreshToken(time)
@@ -186,10 +185,7 @@ function timeout(time){
         }
       })
       .then(jsonData =>{
-        console.log(jsonData)
-        console.log(sessionStorage.getItem('token'))
         sessionStorage.setItem('token', jsonData["data"]["token"]);
-        console.log(sessionStorage.getItem('token'))
       })
       .catch(function(err) {
         console.info(err + " url: " + url)
@@ -199,5 +195,5 @@ function timeout(time){
       console.error('An error occurred:', error);
     }
   }
-let time = 1;
+let time = 10;
 timeout(time)
