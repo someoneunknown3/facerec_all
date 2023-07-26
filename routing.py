@@ -21,6 +21,7 @@ from service.token_read import getToken
 from service.forgot_password import forgotPassword
 from service.reset_password import resetPassword
 from service.forgot_link_verification import tokenVerify
+from service.ocr_ktp import ocr_ktp
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 
@@ -41,6 +42,9 @@ user_collect.create_index('name', unique = True)
 user_collect.create_index('email', unique = True)
 
 face_collect = db['faces']
+
+data_collect = db['data']
+data_collect.create_index('name', unique = True)
 
 log_collect = db['log']
 try:
@@ -179,6 +183,16 @@ def detect_route():
     if request.method == 'POST':
         url_src = request.json['photo']
         return detection(face_collect, url_src)
+
+@app.route('/ktp-reader')
+def ktp_reader():
+    return render_template('ktp-reader.html')
+
+@app.route('/ktp-reader-route', methods=['POST'])
+def ktp_reader_route():
+    if request.method == 'POST':
+        url_src = request.json['photo']
+        return ocr_ktp(data_collect, url_src)
     
 @app.route('/log')
 def log():
