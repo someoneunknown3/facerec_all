@@ -155,6 +155,7 @@ function create_sidebar(){
                   {href:"compare", text:"Compare", icon:"fa-image"}, 
                   {href:"enroll", text:"Enroll", icon:"fa-upload"},
                   {href:"detect", text:"Detect", icon:"fa-check"},
+                  {href:"ktp-reader", text:"KTP Reader", icon:"fa-th"},
                   {href:"log", text:"Log", icon:"fa-th"}
                 ]
 

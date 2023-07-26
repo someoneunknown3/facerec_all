@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Face Rec | KTP Reader</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='plugins/fontawesome-free/css/all.min.css')}}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
+  <!-- Theme style -->
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='dist/css/adminlte.min.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='ktp-reader.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='shared.css')}}">
+</head>
+<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper" id="wrapper">
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>KTP Reader</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">KTP Reader</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-12 mb-3">
+          <input type="submit" value="Read" class="btn btn-success float-right" id="upload">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Choose Your Photo</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="inputClientCompany">Choose Method: </label>
+                <div class="btn-group">
+                    <button type="button" class="btn-helper btn btn-block btn-success">Photo</button>
+                    <button type="button" class="btn-helper btn btn-block btn-outline-success">Camera</button>
+                </div>
+              </div>
+              <div id="choose_photo" class="form-group">
+                <input class="display-block" type="file" name="file1", multiple="false" accept="image/*", id=file1 onchange="loadFile(event, 'output')">
+              </div>
+              <div id="choose_camera" class="form-group d-none">
+                <div class="display-cover">
+                    <video autoplay="false" class="flip-video"></video>
+                    <canvas class="d-none"></canvas>
+                
+                    <div class="video-options">
+                        <select name="" id="" class="custom-select">
+                            <option value="">Select camera</option>
+                        </select>
+                    </div>
+                
+                    <div class="controls">
+                        <button class="btn btn-danger play" title="Play"><i data-feather="play-circle"></i></button>
+                        <button class="btn btn-info pause d-none" title="Pause"><i data-feather="pause"></i></button>
+                        <button class="btn btn-outline-success screenshot d-none" title="ScreenShot"><i data-feather="image"></i></button>
+                    </div>
+                </div>
+              </div>
+              <div id="form_output" class="form-group d-none" style="max-width: 500px;">
+                <div class="row">
+                    <label for="inputClientCompany">Photo :</label>
+                </div>
+                <div class="row">
+                    <img id="output" class="image_helper">
+                </div>
+              </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <div class="col-md-6">
+          <div class="card card-secondary">
+            <div class="card-header">
+              <h3 class="card-title">Result</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <pre id="json"></pre>
+              </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+
+</div>
+<!-- ./wrapper -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js'></script>
+<script src="{{url_for('static', filename='file_form.js')}}"></script>
+<script src="{{url_for('static', filename='logged_shared.js')}}"></script>
+<script src="{{url_for('static', filename='shared.js')}}"></script>
+<script src="{{url_for('static', filename='menu.js')}}"></script>
+<script  src="{{url_for('static', filename='ktp-reader.js')}}"></script>
+<!-- REQUIRED SCRIPTS -->
+<!-- jQuery -->
+<script src="{{url_for('static', filename='plugins/jquery/jquery.min.js')}}"></script>
+<!-- Bootstrap -->
+<script src="{{url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<!-- overlayScrollbars -->
+<script src="{{url_for('static', filename='plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
+<!-- AdminLTE App -->
+<script src="{{url_for('static', filename='dist/js/adminlte.js')}}"></script>
+
+<!-- PAGE PLUGINS -->
+<!-- jQuery Mapael -->
+<script src="{{url_for('static', filename='plugins/jquery-mousewheel/jquery.mousewheel.js')}}"></script>
+<script src="{{url_for('static', filename='plugins/raphael/raphael.min.js')}}"></script>
+<script src="{{url_for('static', filename='plugins/jquery-mapael/jquery.mapael.min.js')}}"></script>
+<script src="{{url_for('static', filename='plugins/jquery-mapael/maps/usa_states.min.js')}}"></script>
+<!-- ChartJS -->
+<script src="{{url_for('static', filename='plugins/chart.js/Chart.min.js')}}"></script>
+</body>
+</html>
