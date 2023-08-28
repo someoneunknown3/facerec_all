@@ -39,6 +39,9 @@ const constraints = {
   }
 };
 
+// const constraints = { video: true };
+
+
 const loadFile = function(event, output) {
     const image = document.getElementById(output);
     screenshotForm.classList.remove("d-none")
@@ -88,6 +91,8 @@ async function ktp_read_success(){
   
   function handleSubmit(event) {
       event.preventDefault();
+      jsonElement = document.getElementById("json")
+      jsonElement.innerHTML = "";
       try {
           let user = verify()
           var canvas = document.createElement('canvas');
@@ -97,7 +102,7 @@ async function ktp_read_success(){
           // Draw the image onto the canvas
           var ctx = canvas.getContext('2d');
           ctx.drawImage(screenshotImage, 0, 0);
-          
+          // ctx.setTransform(1, 0, 0, 1, 0, 0)
           // Get the data URL of the image
           let url_src = canvas.toDataURL('image/png');
           
@@ -120,7 +125,6 @@ async function ktp_read_success(){
           return response.json()
         })
         .then(jsonData =>{
-          jsonElement = document.getElementById("json")
           if(jsonData["code"] == 200){
             ktp_read_success()
             let data = jsonData["data"]
@@ -216,18 +220,18 @@ const pauseStream = () => {
   pause.classList.add('d-none');
 };
 
-const doScreenshot = () => {
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  const ctx = canvas.getContext('2d');
-  ctx.translate(canvas.width, 0);
-  ctx.scale(-1, 1);
-  ctx.drawImage(video, 0, 0);
-  screenshotImage.src = canvas.toDataURL('image/webp');
-  screenshotForm.classList.remove('d-none');
-  camera_src = screenshotImage.src;
-  upload.classList.remove('d-none');
-  camera_exist = true;
+  const doScreenshot = () => {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.translate(0, 0);
+    ctx.scale(1, 1);
+    ctx.drawImage(video, 0, 0);
+    screenshotImage.src = canvas.toDataURL('image/jpeg', 0.95);
+    screenshotForm.classList.remove('d-none');
+    camera_src = screenshotImage.src;
+    upload.classList.remove('d-none');
+    camera_exist = true;
 };
 
 

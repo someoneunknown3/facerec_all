@@ -49,11 +49,17 @@ def ocr_ktp(collection, data_url):
 
         sum_accuracy = 0
         len_accuracy = 0
+        if len(result) == 0:
+            error_msg.append("KTP not found")
 
+        if len(error_msg) > 0:
+            raise Exception("KTP not found")
+        
         for elem in result:
-            bbox = elem[0]
             locations.append(elem[0])
             parts = [part.strip() for part in elem[1].split(':')]
+            words.extend(parts)
+            parts = [part.strip() for part in elem[1].split(';')]
             words.extend(parts)
 
             sum_accuracy += elem[2]
@@ -158,6 +164,7 @@ def ocr_ktp(collection, data_url):
                         json_data["Berlaku Hingga"] = words[i + 1].upper()
                     
             corrected_constants.append(constant)
+        print(words)
         return validation_response("Read KTP Success", 200, data=json_data)
     except Exception as e:
         print(e)
